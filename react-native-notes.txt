@@ -1,0 +1,120 @@
+React Native Notes:
+
+yarn
+	- a dependency manager
+	- is installed 'yarn --version' returns '1.7.0'
+
+watchman
+	- file watching service
+	- installed in /usr/loca/bin; 'watchman --version' returns '4.9.0'
+
+
+For iOS device:
+	- build project
+	- cd [project folder]
+	- yarn
+	- yarn start ( starts the React Native packager )
+	press 's' to send my self link by SMS or email which I can tap on iOS device to open in Expo
+
+- App class EXTENDS React.Component class
+- Text and View are BUILT-IN React Native components
+
+JSX
+	-extension of JavaScript with XML-like syntax
+	-need to import React at the top of any file containing JSX
+
+React Native does NOT use CSS. Styling just looks similar.
+
+flexbox!!
+
+const anArray = [ 1,2,3 ];
+anArray.map( ( x ) => console.log( x^2 ) );
+
+map() is a super powerful method.  we can use it to render an array of JSX objects for display YIPEE! (Time-Tracker p.98)
+
+
+where to initialize state (https://daveceddia.com/where-initialize-state-react/):
+
+1) inside a constructor:
+constructor( props ){
+	super( props );
+	this.state = {
+
+	};
+	...
+}
+This is the ONE and ONLY place where it's ok to have this.state on the LHS.  Otherwise, this.setState(...) is to be used ALWAYS! Also note that this constructor overrides the default construction used by JS (which includes a call to super(props)), so we have to make that call ourselves.
+
+2) Directly inside class with a CLASS PROPERTY
+
+	state = {
+		...
+	};
+
+	I'm using Create React Native App (CRNA) which has Babel's class properties transform turnon by default, so it's ok to use this syntax even though it is not part of offical JS yet...
+
+
+
+
+
+}
+
+
+** Using a combination of state, the value attribute, and the onChangeText attribute is the canonical method we use to write form elements in React Native. ** (See TimerForm.js in time-tracking)
+
+
+In App.js for time-tracking: only mutate state with this.setState()
+This includes method calls INSIDE OF this.setState()!!!
+    //this.state.timers is set to a NEW array of timers
+    //to AVOID MUTATING STATE
+    //note the SPREAD SYNTAX (the ...)
+
+
+    //using timers.push( newTimer(timer) ) woud mutute state and only
+    // this.setState() can mutate state
+
+
+INTERVALS
+	this.intervalID = setInterval(...., TIME_INTERVAL); -- in componentDidMount()
+	clearInterval( this.IntervalID ) in componentWillUnmount()
+
+	
+Great illustration of FLEXBOX LAYOUT ATTRIBUTES starting on p. 147
+BOX MODEL of layout (margin, padding, border) illustrated on p.165
+
+
+
+GIT and BRANCHES
+https://thenewstack.io/dont-mess-with-the-master-working-with-branches-in-git-and-github/
+
+To create a new branch and move to it
+git checkout -b [BRANCH NAME]
+
+To move to existing branch
+git checkout [BRANCHNAME]
+
+To push new branch to repo
+git push origin [BRANCHNAME]
+
+Stage (add) and commit on branch
+git add [FILES]
+git commit -m 'commit message'
+
+MERGING: when merging, we need to be ON the branch that we want to merge TO (probably master)
+
+git merge [BRANCHANME] --no-ff
+
+The '--no-ff' keeps all the commit messages from before the merge
+
+The push to repo
+
+git push
+
+
+
+
+
+
+
+
+

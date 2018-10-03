@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Image, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, FlatList, Dimensions, PixelRatio } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ export default class Grid extends React.Component {
 		itemMargin: PropTypes.number,
 	};
 
-	static defaultTypes = {
+	static defaultProps = {
 		numColumns: 4,
 		itemMargin: StyleSheet.hairlineWidth,
 	};
@@ -20,14 +20,11 @@ export default class Grid extends React.Component {
 	renderGridItem = ( info ) => {
 
 		const { uri } = info;
-		console.log( 'in renderGridItem', uri );
-		console.log( info );
 
 		const { index } = info;
 		const { renderItem, numColumns, itemMargin } = this.props;
 
 		const { width } = Dimensions.get( 'window' );
-
 
 		const size = PixelRatio.roundToNearestPixel(
 			( width - itemMargin * (numColumns - 1)) / numColumns,
@@ -44,7 +41,7 @@ export default class Grid extends React.Component {
 
 
 	render() {
-		return ( <FlatList {...this.props } renderItem={this.renderGridItem} /> );
+		return <FlatList {...this.props } renderItem={this.renderGridItem} />;
 	};
 
 

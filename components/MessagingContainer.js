@@ -60,11 +60,24 @@ export default class MessagingContainer extends React.Component {
 
 
 		const { keyboardAnimationDuration } = nextProps;
+
+
+		//OH MY GOD IS THIS EVER MAGICAL!!!
+		//  LayoutAnimation "automatically handles animating elements that should change size 
+		//  or appear/disappear between calls to render."
+		//  Since the message items in the MessageList are children of MessagingContainer,
+		//  when we add or remove items from the list IT IS FREAKIN' ANIMATED!!!
+		//  BOOM!
+
+
 		const animation = LayoutAnimation.create(
 			keyboardAnimationDuration,
 			Platform.OS === 'android' ? LayoutAnimation.Types.easeInEaseOut : LayoutAnimation.Types.keyboard,
     		LayoutAnimation.Properties.opacity,
 		);
+  		
+
+
   		LayoutAnimation.configureNext(animation);
 
 	}

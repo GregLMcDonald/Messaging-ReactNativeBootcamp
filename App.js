@@ -224,6 +224,15 @@ export default class App extends React.Component {
 
   	const { inputMethod } = this.state;
 
+
+  	// note that the call to this.renderMessageList() is 
+  	// effectively where the state variable messages is passed
+  	// down as props.  LayoutAnimation is enqueued in MessageContainer
+  	// method componentWillReceiveProps() and this is the MAGIC
+  	// that result in additions to and deletions from the message list
+  	// being animated as well as changes in the MessagingContain size
+  	// depending on an input method being visible or not.
+
     return (
       <View style={styles.container}>
         <Status />

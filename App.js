@@ -14,6 +14,10 @@ import {
 import Status from "./components/Status";
 import Toolbar from "./components/Toolbar";
 import ImageGrid from "./components/ImageGrid";
+import KeyboardState from './components/KeyboardState';
+import MeasureLayout from './components/MeasureLayout';
+import MessagingContainer, { INPUT_METHOD } from './components/MessagingContainer';
+
 
 import MessageList from "./components/MessageList";
 import {
@@ -28,31 +32,26 @@ export default class App extends React.Component {
       createTextMessage(
         "Once more unto the breach, dear friends, or fill the wall up with our English dead!"
       ),
-      createTextMessage("hi 1"),
-      createImageMessage("https://unsplash.it/300/300"),
-      createTextMessage(
-        "Once more unto the breach, dear friends, or fill the wall up with our English dead!"
-      ),
-      createTextMessage("hi 2"),
-      createImageMessage("https://unsplash.it/300/300"),
-      createTextMessage(
-        "Once more unto the breach, dear friends, or fill the wall up with our English dead!"
-      ),
-      createTextMessage("hi 3"),
-      createImageMessage("https://unsplash.it/300/300"),
-      createTextMessage(
-        "Once more unto the breach, dear friends, or fill the wall up with our English dead!"
-      ),
-      createTextMessage("hi 4"),
-      createImageMessage("https://unsplash.it/300/300")
     ],
 
+    inputMethod: INPUT_METHOD.NONE,
     fullscreenImageId: null,
     isInputFocused: false
   };
 
-  handlePressToolbarCamera = () => {};
+  handleChangeInputMethod = (inputMethod) => {
+  	this.setState({inputMethod});
+  }
+
+  handlePressToolbarCamera = () => {
+  	this.setState({
+  		isInputFocused: false,
+  		inputMethod: INPUT_METHOD.CUSTOM,
+  	});
+  };
+
   handlePressToolbarLocation = () => {
+
     console.log("location pressed");
 
     const { messages } = this.state;
@@ -90,7 +89,8 @@ export default class App extends React.Component {
     const { messages } = this.state;
 
     this.setState({
-      messages: [createTextMessage(text), ...messages]
+      messages: [createTextMessage(text), ...messages],
+      inputMethod: INPUT_METHOD.NONE,
     });
   };
 
@@ -157,7 +157,10 @@ export default class App extends React.Component {
   handlePressImage = uri => {
     const { messages } = this.state;
 
-    this.setState({ messages: [createImageMessage(uri), ...messages] });
+    this.setState({ 
+    	messages: [createImageMessage(uri), ...messages],
+    	inputMethod: INPUT_METHOD.NONE,
+    });
   };
 
   renderMessageList = () => {
@@ -218,12 +221,32 @@ export default class App extends React.Component {
   }
 
   render() {
+
+  	const { inputMethod } = this.state;
+
     return (
       <View style={styles.container}>
         <Status />
-        {this.renderMessageList()}
-        {this.renderToolbar()}
-        {this.renderInputMethodEditor()}
+
+        <MeasureLayout>
+        	{ layout => (
+        		<KeyboardState layout={layout}>
+        			{ keyboardInfo => (
+
+        				<MessagingContainer
+        					{...keyboardInfo}
+        					inputMethod={inputMethod}
+        					onChangeInputMethod={this.handleChangeInputMethod}
+        					renderInputMethodEditor={this.renderInputMethodEditor}
+        				>
+        					{this.renderMessageList()}
+        					{this.renderToolbar()}
+        				</MessagingContainer>
+        			)}
+        		</KeyboardState>
+        	)}
+        </MeasureLayout>
+
         {this.renderFullscreenImage()}
       </View>
     );

@@ -1,53 +1,40 @@
-import { StyleSheet, FlatList, Dimensions, PixelRatio } from 'react-native';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { StyleSheet, FlatList, Dimensions, PixelRatio } from "react-native";
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class Grid extends React.Component {
+  static propTypes = {
+    renderItem: PropTypes.func.isRequired,
+    numColumns: PropTypes.number,
+    itemMargin: PropTypes.number
+  };
 
-	static propTypes = {
-		renderItem: PropTypes.func.isRequired,
-		numColumns: PropTypes.number,
-		itemMargin: PropTypes.number,
-	};
+  static defaultProps = {
+    numColumns: 4,
+    itemMargin: StyleSheet.hairlineWidth
+  };
 
-	static defaultProps = {
-		numColumns: 4,
-		itemMargin: StyleSheet.hairlineWidth,
-	};
+  renderGridItem = info => {
+    const { uri } = info;
 
+    const { index } = info;
+    const { renderItem, numColumns, itemMargin } = this.props;
 
+    const { width } = Dimensions.get("window");
 
-	renderGridItem = ( info ) => {
+    const size = PixelRatio.roundToNearestPixel(
+      (width - itemMargin * (numColumns - 1)) / numColumns
+    );
 
-		const { uri } = info;
+    const marginLeft = index % numColumns === 0 ? 0 : itemMargin;
+    const topMargin = index < numColumns ? 0 : itemMargin;
 
-		const { index } = info;
-		const { renderItem, numColumns, itemMargin } = this.props;
+    //...
 
-		const { width } = Dimensions.get( 'window' );
+    return renderItem({ ...info, size, marginLeft, topMargin });
+  };
 
-		const size = PixelRatio.roundToNearestPixel(
-			( width - itemMargin * (numColumns - 1)) / numColumns,
-		);
-
-		const marginLeft = index % numColumns === 0 ? 0 : itemMargin;
-		const topMargin = index < numColumns ? 0 : itemMargin;
-
-		//...
-
-		return renderItem( {...info, size, marginLeft, topMargin });
-
-	};
-
-
-	render() {
-		return <FlatList {...this.props } renderItem={this.renderGridItem} />;
-	};
-
-
-
-
-
-
-
+  render() {
+    return <FlatList {...this.props} renderItem={this.renderGridItem} />;
+  }
 }

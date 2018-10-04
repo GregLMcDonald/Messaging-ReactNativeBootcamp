@@ -90,7 +90,7 @@ export default class Toolbar extends React.Component {
             style={styles.input}
             underlineColorAndroid={"transparent"}
             placeholder={"Type something!"}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
             value={text}
             onChangeText={this.handleChangeText}
             onSubmitEditing={this.handleSubmitEditing}

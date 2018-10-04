@@ -1,3 +1,5 @@
+/** @format */
+
 import { CameraRoll, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Permissions } from "expo";
 import PropTypes from "prop-types";

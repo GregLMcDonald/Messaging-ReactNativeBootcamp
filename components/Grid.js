@@ -1,3 +1,5 @@
+/** @format */
+
 import { StyleSheet, FlatList, Dimensions, PixelRatio } from "react-native";
 import React from "react";
 import PropTypes from "prop-types";
